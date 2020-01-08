@@ -26,6 +26,7 @@ class HomePage extends Component {
                     <Header/>
                     <Switch>
                         <Route exact path="/products" component={Products} />
+                        <Route exact path="/createProduct" component={Products} />
                         <Route  path="/products/:id" component={ProductRecords}/>
                         <Redirect from='/' to="/products" />
                     </Switch>

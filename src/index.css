@@ -11,3 +11,37 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.underline1, .underline2 { 
+  position: relative; 
+}   
+
+.underline1:after {
+  position: absolute;
+  content: '';
+  height: 4px;
+  bottom: -4px; 
+  margin: 0 auto;
+  left: 0;
+  width: 80%;
+  background: green;
+  -ms-transition:.5s;
+  -moz-transition:.5s;
+  -webkit-transition:.5s;
+  transition:.5s;
+}
+
+.underline2:after {
+  position: absolute;
+  content: '';
+  height: 4px;
+  bottom: -4px; 
+  margin: 0 auto;
+  left: 0;
+  width: 80%;
+  background: #ffc107;
+  -ms-transition:.5s;
+  -moz-transition:.5s;
+  -webkit-transition:.5s;
+  transition:.5s;
+}

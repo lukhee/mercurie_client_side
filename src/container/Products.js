@@ -1,6 +1,27 @@
 import React, { Component } from 'react'
+import { Card } from 'react-bootstrap'
+import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 
 import ProductCard from '../components/products/productCard'
+
+const I = styled.i`
+    font-size: 100px;
+    color: #d8d8f085;
+    margin: auto;
+    &:hover{
+        color: #d8d8f0
+    }
+`
+const StyledLink = styled(Link)`
+    text-decoration: none;
+    margin: auto;
+
+    &:focus, &:hover, &:visited, &:link, &:active {
+        text-decoration: none;
+    }
+`;
+
 
 const grid = {
     display: 'grid',
@@ -60,10 +81,15 @@ class Products extends Component {
             <div className='container'>
                 <div className='d-flex justify-content-between my-1'> 
                     <h3>Filters by Categories</h3>
-                    <h3>Create new Product</h3>
+                    <h3> <StyledLink to="/staffsRecord"> Staffs Record </StyledLink></h3>
                 </div>
                 <div style={grid}> 
                     {products}
+                        <Card style={{width: '100%', background: '#fffff', color: "#181830" }} className='text-center shadow-sm'>
+                            <StyledLink to="/createProduct">
+                                <I className="fa fa-plus" aria-hidden="true"></I>
+                            </StyledLink>
+                        </Card>
                 </div>
             </div>
         )
