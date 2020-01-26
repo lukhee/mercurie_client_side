@@ -22,7 +22,10 @@ const productCard = (props)=> {
                         <Card.Title>{props.productData.name}</Card.Title>
                         <Card.Subtitle style={{ fontSize: "14px"}} className="mb-4 text-muted">{props.productData.description}</Card.Subtitle>
                         <div className='d-flex justify-content-between' style={{ fontSize: "12px"}} >
-                            <span className='p-1'> {props.productData.teamLead} </span> <span className='p-1 border px-3 border border-warning text-warning '> <i className="fa fa-circle" aria-hidden="true"></i> {props.productData.status} </span>
+                            <span className='p-1'> {props.productData.teamLead} </span> 
+                            <span className={props.productData.status === "Done" ? "text-success px-3 border border-success w-50 p-1 ": "text-warning px-3 p-1 border border-warning w-50"}> 
+                                <i className="fa fa-circle" aria-hidden="true"></i> {props.productData.status} 
+                            </span>
                         </div>
                     </Card.Body>
                 </Card>

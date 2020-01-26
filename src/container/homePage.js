@@ -8,8 +8,9 @@ import {
   } from "react-router-dom";
 
 import Header from '../components/navbar/header'
-import Products from './Products'
-import ProductRecords from './ProductRecords'
+import Products from './Products/Products'
+import ProductRecords from './Products/ProductRecords'
+import Employees from './Employee/Employees'
 
 
 const ConDiv = styled.div`
@@ -27,6 +28,8 @@ class HomePage extends Component {
                     <Switch>
                         <Route exact path="/products" component={Products} />
                         <Route exact path="/createProduct" component={Products} />
+                        <Route exact path="/staffRecords" component={Employees} />
+                        {/* <Route exact path="/staffRecords/:ID" component={Products} /> */}
                         <Route  path="/products/:id" component={ProductRecords}/>
                         <Redirect from='/' to="/products" />
                     </Switch>
