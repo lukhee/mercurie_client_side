@@ -19,6 +19,9 @@ const ConDiv = styled.div`
     min-height: 100vh;
 `
 
+const NotFound = () => (<h6 className="text-center">404</h6>);
+const ServerDown = () =>(<h6 className="text-center">500 Server Down</h6>)
+
 class HomePage extends Component {
     render() {
         return (
@@ -32,6 +35,8 @@ class HomePage extends Component {
                         {/* <Route exact path="/staffRecords/:ID" component={Products} /> */}
                         <Route  path="/products/:id" component={ProductRecords}/>
                         <Redirect from='/' to="/products" />
+                        <Route exact path="/error" render={() => <ServerDown />} />
+                        <Route exact path="*" render={() => <NotFound />} />
                     </Switch>
                 </ConDiv>
             </Router>

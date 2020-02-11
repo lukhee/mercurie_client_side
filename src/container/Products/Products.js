@@ -1,13 +1,15 @@
 import React, { Component } from 'react'
 import { Card } from 'react-bootstrap'
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
 import { Form } from 'react-bootstrap'
-import productData from '../../data'
+import { getAllEmployees, createProduct } from '../../API'
 
+import { getAllprojects  } from '../../API'
 import ProductCard from '../../components/products/productCard'
 import CreateForm from '../../components/Util/CreateForm/ProductForm'
 import Modal from '../../components/Util/modals/productModals/AddStaffModal'
+import Spinner from '../../components/Util/Spinner/Spinner'
 
 const I = styled.i`
     font-size: 100px;
@@ -17,15 +19,15 @@ const I = styled.i`
         color: #d8d8f0
     }
 `
-const StyledLink = styled(Link)`
-    text-decoration: none;
-    margin: auto;
-    color: black
+// const StyledLink = styled(Link)`
+//     text-decoration: none;
+//     margin: auto;
+//     color: black
 
-    &:focus, &:hover, &:visited, &:link, &:active {
-        text-decoration: none;
-    }
-`;
+//     &:focus, &:hover, &:visited, &:link, &:active {
+//         text-decoration: none;
+//     }
+// `;
 
 const StyleDiv = styled.div`
     text-decoration: none;
@@ -41,27 +43,80 @@ const grid = {
     display: 'grid',
     gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))',
     gridGap: '1rem',
-  }
+}
 
 class Products extends Component {
     state = {
-        showModal: false,
+        query: { limit: 10, status: null},
         projectName: "",
+        errorMessage: null,
         description: "",
         status: "pending",
         teamLead: "",
+        productsData: [],
+        employees: [],
+        isLoading: true,
+        showModal: false,
+    }
+
+    componentDidMount(){
+        console.log("from componentDidMount")
+        getAllprojects()
+        .then(result=>{
+            let data = result.data.message 
+            console.log(this.props)
+            this.setState({
+                isLoading: false,
+                productsData: data
+            })
+        })
+        .catch(err=>{
+            console.log(err)
+            // this.props.history.push("/error");
+
+            this.setState({
+                isLoading: false
+            }, () => {
+                // this.props.history.push("/error");
+            })
+        })
     }
 
     setModalShowHandler (e) { 
-        this.setState({
-            showModal: !this.state.showModal,
+        getAllEmployees()
+        .then(result=>{
+            let employees = result.data.message
+            this.setState({
+                showModal: !this.state.showModal,
+                errorMessage: null,
+                employees
+            })
         })
+        .catch(err=> console.log(err))
     }
 
     handleSubmitHandler (e) {
         e.preventDefault()
-        this.setState({
-            showModal: !this.state.showModal,
+        const payload = {
+            title: this.state.projectName.trim(),
+            description: this.state.description.trim(),
+            status: this.state.status,
+            teamLead: this.state.teamLead,
+            author: "Victor M."
+        }
+        createProduct(payload)
+        .then(res=>{
+            window.location.reload()
+        })
+        .catch(err=>{
+            const errorStatus = err.response.status
+            if(errorStatus === 301){
+                console.log("i am here")
+                this.setState({
+                    errorMessage: "project already created"
+                })
+            }
+            console.log(err)
         })
     }
 
@@ -73,15 +128,23 @@ class Products extends Component {
         
     }
 
+    FilterHandler (e){
+        console.log(e.target.value)
+        const status = e.target.value
+    }
+
     render() {
+        console.log(this.state.query)
         const modalHeaderTitle = "New Project"
-        const products = productData.map(key=>{
+        let products
+        products = this.state.productsData.map(key=>{
             return(
-                <ProductCard key={key.id} productData= {key}/>
+                <ProductCard key={key._id} productData= {key}/>
             )
         })
         return (
             <div className='container pb-4'>
+                {this.state.isLoading? <Spinner/> : null}
                 <div> 
                     <Form className='d-flex justify-content-between my-2'>
                         <Form.Control name="viewLimit" className="rounded-0 col-2" size="sm" as="select" onChange={this.FilterHandler}>
@@ -90,15 +153,17 @@ class Products extends Component {
                             <option value="30">30</option>
                         </Form.Control>
                         <Form.Control name="viewStatus" className="rounded-0 col-2" size="sm" as="select" onChange={this.FilterHandler}>
+                            <option value="">All</option>
+                            <option value="done">Done</option>
                             <option value="pending">Pending</option>
-                            <option value="success">Success</option>
-                            <option value="progress">progress</option>
+                            <option value="progress">Progress</option>
+                            <option value="rejected">Rejected</option>
                         </Form.Control>
                     </Form>
                 </div>
                 <div style={grid}> 
                     {products}
-                    <Card style={{width: '100%', background: '#fffff', color: "#181830" }} className='text-center shadow-sm'>
+                    <Card style={{width: '100%', background: '#fffff', color: "#181830" }} className='text-center p-3 shadow-sm'>
                         <StyleDiv onClick={this.setModalShowHandler.bind(this)}>
                             <I className="fa fa-plus" aria-hidden="true"></I>
                         </StyleDiv>
@@ -111,8 +176,10 @@ class Products extends Component {
                 >
                     <CreateForm
                     name={this.state.name}
+                    employees={this.state.employees}
                     handleChange={this.handleChangeHandler.bind(this)}
-                    handleSubmit={this.handleSubmitHandler.bind(this)}/>
+                    handleSubmit={this.handleSubmitHandler.bind(this)}
+                    errorMessage={this.state.errorMessage}/>
                 </Modal>
             </div>
         )
