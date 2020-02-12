@@ -1,12 +1,12 @@
 import axios from 'axios'
 
 const api = axios.create({
-    baseURL: 'http://localhost:3040',
+    baseURL: 'https://mercurie.herokuapp.com/',
 })
 
 export const createProduct = (payload) => api.post('/createProduct', payload)
 export const insertProject = payload => api.post(`/project`, payload)
-export const getAllprojects = () => api.get(`/viewAllProduct`) 
+export const getAllprojects = (limit, status) => api.get(`/?status=${status}&limit=${limit}`) 
 export const updateProjectById = (id, payload) => api.put(`/addEmployeeProduct/${id}`, payload)
 export const deleteProjectById = id => api.delete(`/project/${id}`)
 export const getProjectById = id => api.get(`/viewProduct/${id}`)

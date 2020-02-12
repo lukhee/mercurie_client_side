@@ -47,11 +47,10 @@ const grid = {
 
 class Products extends Component {
     state = {
-        query: { limit: 10, status: null},
+        query: { limit: 10, status: ''},
         projectName: "",
         errorMessage: null,
         description: "",
-        status: "pending",
         teamLead: "",
         productsData: [],
         employees: [],
@@ -59,12 +58,11 @@ class Products extends Component {
         showModal: false,
     }
 
-    componentDidMount(){
-        console.log("from componentDidMount")
-        getAllprojects()
+    getAllProductAPI(){
+        let query = {...this.state.query}
+        getAllprojects(query.limit, query.status)
         .then(result=>{
-            let data = result.data.message 
-            console.log(this.props)
+            let data = result.data.message
             this.setState({
                 isLoading: false,
                 productsData: data
@@ -80,6 +78,10 @@ class Products extends Component {
                 // this.props.history.push("/error");
             })
         })
+    }
+
+    componentDidMount(){
+        this.getAllProductAPI()
     }
 
     setModalShowHandler (e) { 
@@ -129,12 +131,22 @@ class Products extends Component {
     }
 
     FilterHandler (e){
-        console.log(e.target.value)
-        const status = e.target.value
+        const value = e.target.value
+        const query = {...this.state.query}
+        if(e.target.id=== "limit"){
+            query.limit = value
+        } else {
+            query.status = value
+        }
+        this.setState({
+            isLoading: true,
+            query
+        }, ()=>{this.getAllProductAPI()})
+        
+        // this.getAllProductFunct()
     }
 
     render() {
-        console.log(this.state.query)
         const modalHeaderTitle = "New Project"
         let products
         products = this.state.productsData.map(key=>{
@@ -147,12 +159,12 @@ class Products extends Component {
                 {this.state.isLoading? <Spinner/> : null}
                 <div> 
                     <Form className='d-flex justify-content-between my-2'>
-                        <Form.Control name="viewLimit" className="rounded-0 col-2" size="sm" as="select" onChange={this.FilterHandler}>
+                        <Form.Control id="limit" name="viewLimit" className="col-sm-2" size="sm" as="select" onChange={this.FilterHandler.bind(this)}>
                             <option value="10">10</option>
                             <option value="20">20</option>
                             <option value="30">30</option>
                         </Form.Control>
-                        <Form.Control name="viewStatus" className="rounded-0 col-2" size="sm" as="select" onChange={this.FilterHandler}>
+                        <Form.Control id="status" name="viewStatus" className="col-sm-2" size="sm" as="select" onChange={this.FilterHandler.bind(this)}>
                             <option value="">All</option>
                             <option value="done">Done</option>
                             <option value="pending">Pending</option>
