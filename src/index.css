@@ -57,3 +57,13 @@ code {
   -webkit-transform: rotate(-135deg);
   border-width: 0 2px 2px 0px !important
 }
+
+.Lead {
+  font-weight: 400;
+  font-size: 24px;
+}
+
+.modal-title {
+  font-size: 27px !important;
+  font-weight: 400 !important;
+}

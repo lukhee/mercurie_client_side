@@ -47,7 +47,7 @@ const grid = {
 
 class Products extends Component {
     state = {
-        query: { limit: 10, status: ''},
+        query: { limit: 20, status: ''},
         projectName: "",
         errorMessage: null,
         description: "",
@@ -160,15 +160,15 @@ class Products extends Component {
                 <div> 
                     <Form className='d-flex justify-content-between my-2'>
                         <Form.Control id="limit" name="viewLimit" className="col-sm-2" size="sm" as="select" onChange={this.FilterHandler.bind(this)}>
-                            <option value="10">10</option>
                             <option value="20">20</option>
                             <option value="30">30</option>
+                            <option value="50">50</option>
                         </Form.Control>
                         <Form.Control id="status" name="viewStatus" className="col-sm-2" size="sm" as="select" onChange={this.FilterHandler.bind(this)}>
                             <option value="">All</option>
+                            <option value="new">New</option>
                             <option value="done">Done</option>
                             <option value="pending">Pending</option>
-                            <option value="progress">Progress</option>
                             <option value="rejected">Rejected</option>
                         </Form.Control>
                     </Form>

@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 
 import ProductRecordCard from '../../components/products/productRecordCard'
-import { getProjectById, getAllEmployees, updateProjectById } from '../../API'
+import ProductSetting from '../../components/products/productSetting'
+import { getProjectById, getAllEmployees, updateProjectById, deleteProjectById } from '../../API'
 import AddStaffModal from '../../components/Util/modals/productModals/AddStaffModal'
 import Spinner from '../../components/Util/Spinner/Spinner'
 
@@ -25,6 +26,7 @@ class product extends Component {
         addStaffModal: false,
         isLoading: true,
         showMore: true,
+        setting: false
     }
 
     componentDidMount(){
@@ -59,21 +61,15 @@ class product extends Component {
             const queryMembers = result.data.message
             this.setState({
                 addStaffModal: !this.state.addStaffModal,
-                staffs: queryMembers
+                staffs: queryMembers,
+                setting: false
             })
         })
         .catch(err=>{
             console.log(err)
         })
     }
-
-    teamLeadModalHandler () {
-        this.setState({
-            leadModal: !this.state.leadModal,
-            // staffs: ProductData
-        })
-    }
-
+    
     AddEmployeeToTeamHandler (userID) {
         const id = this.props.match.params.id
         updateProjectById(id, {userID : userID} )
@@ -81,6 +77,13 @@ class product extends Component {
             window.location.reload()
         })
         .catch(err=> console.log(err))
+    }
+
+    teamLeadModalHandler () {
+        this.setState({
+            leadModal: !this.state.leadModal,
+            // staffs: ProductData
+        })
     }
 
     removeMemberHandler (removeID){
@@ -101,6 +104,15 @@ class product extends Component {
         .catch(err=> console.log(err))
     }
 
+    deleteProductHandler () {
+        deleteProjectById(this.state.productProperty._id)
+        .then(result=>{
+            // this.setState({addStaffModal: !this.state.addStaffModal})
+            this.props.history.push("/products");
+        })
+        .catch(err=>console.log(err))
+    }
+
     showMoreHandler (id) {
         if(id === this.state.showMore){
             this.setState({
@@ -113,9 +125,41 @@ class product extends Component {
         }
     }
 
+    settingModal (){
+        this.setState({
+            setting: true,
+            addStaffModal: true,
+            staff: null
+        })
+    }
+
+    inputChangeHandler (e) {
+        const {name, value} = e.target
+        this.setState({
+            [name] : value
+        })
+        
+    }
+
+    updateSubmitHandler (e) {
+        let ID = this.props.match.params.id
+        e.preventDefault()
+        const payload = {
+            title: this.state.projectName.trim(),
+            lengthyDescription: this.state.description.trim(),
+            status: this.state.status,
+            fontAwesome: this.state.projectFontAwesome
+        }
+        updateProjectById(ID, {genaralUpdate : payload} )
+        .then(result=>{
+            window.location.reload()
+        })
+        .catch(err=> console.log(err))
+    }
+
     render() {
-        // const productsData = {...this.state.productProperty}
         let createdAt,
+            modalHead,
             productEmployeesCard,
             // employees = [],
             modalBody = "noting to show for now"
@@ -124,7 +168,8 @@ class product extends Component {
             createdAt = this.state.productProperty.createdAt.slice(0, 10)
         }
 
-        if(this.state.staffs){
+        if(this.state.staffs && !this.state.setting){
+            modalHead = "Add to team"
             if(this.state.staffs.length === 0){
                 modalBody = <div className="text-center lead"> No more team member to add to the project </div>
             } else {
@@ -137,6 +182,13 @@ class product extends Component {
                     </div>
                 ))
             }
+        } else if(this.state.setting) {
+            modalHead = "Setting"
+            modalBody = <ProductSetting 
+                productProps={this.state.productProperty} 
+                deleteProduct={this.deleteProductHandler.bind(this)}
+                updateSubmit={this.updateSubmitHandler.bind(this)}
+                inputChangeHandler = {this.inputChangeHandler.bind(this)}/>
         }
 
         productEmployeesCard = this.state.teamMember.map((val, index)=>{
@@ -160,11 +212,14 @@ class product extends Component {
             {this.state.isLoading? <Spinner/> : null}
                 <div style={{background: '#464159', color: "#ffffff"}} className="p-4 mb-4 position-relative">
                     <div>
-                        <SettingICon className="fa fa-cog text-light position-absolute" aria-hidden="true"/>
+                        <SettingICon 
+                        onClick={this.settingModal.bind(this)} 
+                        className="fa fa-cog text-light position-absolute" 
+                        aria-hidden="true"/>
                     </div>
                     <div className="row">
                         <div className="col-sm-4 text-center py-4 m-auto">
-                            <i style={{fontSize: "60px", color: "#464159"}} className="fa fa-handshake-o p-4  rounded-circle bg-light border border-light" aria-hidden="true"></i>
+                            <i style={{fontSize: "60px", color: "#464159"}} className={this.state.productProperty.fontAwesome? `p-4  rounded-circle bg-light border border-light ${this.state.productProperty.fontAwesome}` : "fa fa-handshake-o p-4  rounded-circle bg-light border border-light"} aria-hidden="true"></i>
                         </div>
                         <div className="col-sm-8 py-4">
                             <h3>{this.state.productProperty.title}</h3>
@@ -189,7 +244,7 @@ class product extends Component {
             <AddStaffModal
                 show={this.state.addStaffModal}
                 onHide={this.showModalHandler.bind(this)}
-                header="Add To Team"
+                header={modalHead}
             > 
                 {modalBody}
             </AddStaffModal>
