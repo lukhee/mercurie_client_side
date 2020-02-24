@@ -9,7 +9,7 @@ import configureStore from './redux/store/index';
 import * as serviceWorker from './serviceWorker';
 const ReduxConnect = (
     <Provider store={configureStore()}>
-        <App></App>
+        <App/>
     </Provider>
 )
 

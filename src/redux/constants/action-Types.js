@@ -1,1 +1,1 @@
-export const ADD_ARTICLE = "ADD_ARTICLE";
+export const CHANGE_PAGE = "CHANGE_PAGE";
