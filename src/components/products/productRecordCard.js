@@ -12,16 +12,15 @@ const I = styled.i`
 
 function productRecordCard (props) {
     let modalBody, header
-    if(props.staffs){
+    if(props.leadModal){
         header = "Change Teamlead"
-        modalBody = props.staffs.map((val, i)=>(
-            <div className="d-flex justify-content-between mb-2" key={i}>
+        modalBody = props.staffs.map((val, i)=>
+            (<div className="d-flex justify-content-between mb-2" key={i}>
                 <h5> { val.name}</h5>
                 <button 
-                onClick={()=>props.changeTeamLead(props.data._id)}
+                onClick={()=>props.changeTeamLead(val._id)}
                 className="btn rounded-0 btn-outline-success px-4 btn-sm">Change</button>
-            </div>
-        ))
+            </div>))
     }
         
     return (

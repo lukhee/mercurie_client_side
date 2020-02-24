@@ -31,6 +31,7 @@ class product extends Component {
 
     componentDidMount(){
         let ID = this.props.match.params.id
+        console.log("from component dit mount")
         getProjectById(ID)
         .then(result=>{
             let data = result.data.message
@@ -56,7 +57,7 @@ class product extends Component {
         this.state.teamMember.map(value=>
             members.push(value._id)
         )
-        getAllEmployees(members)
+        getAllEmployees({employee:members})
         .then(result=>{
             const queryMembers = result.data.message
             this.setState({
@@ -100,6 +101,7 @@ class product extends Component {
         updateProjectById(id, {teamLead : teamLeadID} )
         .then(result=>{
             window.location.reload()
+            console.log(result)
         })
         .catch(err=> console.log(err))
     }
@@ -161,7 +163,6 @@ class product extends Component {
         let createdAt,
             modalHead,
             productEmployeesCard,
-            // employees = [],
             modalBody = "noting to show for now"
 
         if(Object.keys(this.state.teamMember).length){
@@ -223,7 +224,7 @@ class product extends Component {
                         </div>
                         <div className="col-sm-8 py-4">
                             <h3>{this.state.productProperty.title}</h3>
-                            <p style={{color: "#d8d8f0ad", linHeight: "1.6"}} className="pb-3">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.</p>
+        <p style={{color: "#d8d8f0ad", linHeight: "1.6"}} className="pb-3">{this.state.productProperty.lengthyDescription || "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable."}</p>
                             <div className="row justify-content-between px-3">
                                 <span> {this.state.productProperty.author} </span>
                                 <span> {createdAt} </span>

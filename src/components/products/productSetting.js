@@ -10,10 +10,11 @@ const I = styled.i`
     padding: 3px;
 `
 
-const ProductSetting = (props)=> {
+const ProductSetting = (props)=> { 
     const [dropID, setDropID] = useState(0);
     const [name, setName] = useState("")
     const [errorMessage, setError] = useState(null)
+    
     const DropIdSetter = (id)=> {
             setDropID(id)
     }
@@ -46,7 +47,7 @@ const ProductSetting = (props)=> {
                     <span  onClick={()=>DropIdSetter(2)}><I className="down"></I> </span>
                 </div>
                 <div className={dropID === 2? "d-block pt-3" : "d-none"}>
-                <div className="d-flex justify-content-between pt-2">
+                    <div className="d-flex justify-content-between pt-2">
                         <Form className="w-50 rounded-0">
                             <Form.Control 
                             className="rounded-0 bg-light" size="sm" type="text" 

@@ -29,7 +29,7 @@ const I = styled.i`
 //     }
 // `;
 
-const StyleDiv = styled.div`
+const IconDiv = styled.div`
     text-decoration: none;
     margin: auto;
     color: black
@@ -88,6 +88,7 @@ class Products extends Component {
         getAllEmployees()
         .then(result=>{
             let employees = result.data.message
+            console.log(employees)
             this.setState({
                 showModal: !this.state.showModal,
                 errorMessage: null,
@@ -142,8 +143,6 @@ class Products extends Component {
             isLoading: true,
             query
         }, ()=>{this.getAllProductAPI()})
-        
-        // this.getAllProductFunct()
     }
 
     render() {
@@ -159,13 +158,13 @@ class Products extends Component {
                 {this.state.isLoading? <Spinner/> : null}
                 <div> 
                     <Form className='d-flex justify-content-between my-2'>
-                        <Form.Control id="limit" name="viewLimit" className="col-sm-2" size="sm" as="select" onChange={this.FilterHandler.bind(this)}>
+                        <Form.Control id="limit" name="viewLimit" className="col-sm-2 mr-2" size="sm" as="select" onChange={this.FilterHandler.bind(this)}>
                             <option value="20">20</option>
                             <option value="30">30</option>
                             <option value="50">50</option>
                         </Form.Control>
                         <Form.Control id="status" name="viewStatus" className="col-sm-2" size="sm" as="select" onChange={this.FilterHandler.bind(this)}>
-                            <option value="">All</option>
+                            <option value="">Filter</option>
                             <option value="new">New</option>
                             <option value="done">Done</option>
                             <option value="pending">Pending</option>
@@ -176,9 +175,9 @@ class Products extends Component {
                 <div style={grid}> 
                     {products}
                     <Card style={{width: '100%', background: '#fffff', color: "#181830" }} className='text-center p-3 shadow-sm'>
-                        <StyleDiv onClick={this.setModalShowHandler.bind(this)}>
+                        <IconDiv onClick={this.setModalShowHandler.bind(this)}>
                             <I className="fa fa-plus" aria-hidden="true"></I>
-                        </StyleDiv>
+                        </IconDiv>
                     </Card>
                 </div>
                 <Modal

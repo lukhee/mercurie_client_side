@@ -30,7 +30,7 @@ function componentName(props) {
                         </Form.Group>
                         <Form.Group>
                             <Form.Control name="status" className="rounded-0" size="sm" as="select" onChange={props.handleChange}>
-                                <option> Status </option> 
+                                {/* <option> Status </option>  */}
                                 <option value={props.productProps? props.productProps.status : "new"}> {props.productProps? props.productProps.status: "New"}</option>
                                 <option value="pending">Pending</option>
                                 <option value="done">Done</option>
@@ -46,7 +46,7 @@ function componentName(props) {
                 </div>
                 <div className="d-flex justify-content-between">
                 <p className="text-danger"><small>{props.errorMessage}</small></p>
-                <button className=" font-weight-bold w-25 btn btn-outline-warning rounded-0" size="sm" type="submit">
+                <button className=" font-weight-bold btn btn-outline-warning rounded-0" size="sm" type="submit">
                     Submit
                 </button>
                 </div> 

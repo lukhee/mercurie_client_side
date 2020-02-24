@@ -2,7 +2,7 @@ import axios from 'axios'
 
 const api = axios.create({
     baseURL: 'https://mercurie.herokuapp.com/',
-    // baseURL: "localhost:3040"
+    // baseURL: "http://localhost:3040"
 })
 
 export const createProduct = (payload) => api.post('/createProduct', payload)
@@ -12,7 +12,10 @@ export const updateProjectById = (id, payload) => api.put(`/addEmployeeProduct/$
 export const deleteProjectById = id => api.delete(`/deleteProduct/${id}`)
 export const getProjectById = id => api.get(`/viewProduct/${id}`)
 
-export const getAllEmployees = (payLoad) => api.get('findAllEmployees', {member : payLoad})
+export const createEmployee = (payload) => api.post('/createEmployee', payload)
+export const getAllEmployees = (payLoad, limit, status) => api.post(`findAllEmployees/?status=${status}&limit=${limit}`, {payLoad : payLoad})
+export const getEmployeeByID = (id)=> api.get(`/findEmployeeByID/${id}`)
+export const deleteEmployeeByID = (id)=> api.delete(`/deleteEmployee/${id}`)
 
 const apis = {
     insertProject,
@@ -22,7 +25,10 @@ const apis = {
     getProjectById,
     createProduct,
 
-    getAllEmployees
+    getAllEmployees,
+    createEmployee,
+    getEmployeeByID,
+    deleteEmployeeByID
 }
 
 export default apis

@@ -13,22 +13,31 @@ const StyledLink = styled(Link)`
     }
 `;
 
+const CardHover = styled(Card)`
+    width: 100%;
+    background: #fffff;
+    color: #181830;
+    &:hover {
+        transform: scale(1.05);
+    }
+`
+
 const productCard = (props)=> {
     return (
         <div>
             <StyledLink to={props.match.path.concat('/').concat(props.productData._id)}>
-                <Card style={{width: '100%', background: '#fffff', color: "#181830" }} className='text-center shadow-sm'>
+                <CardHover className='text-center shadow-sm'>
                     <Card.Body>
                         <Card.Title>{props.productData.title}</Card.Title>
                         <Card.Subtitle style={{ fontSize: "14px"}} className="mb-4 text-muted">{props.productData.description}</Card.Subtitle>
                         <div className='d-flex justify-content-between' style={{ fontSize: "12px"}} >
                             <span className='p-1'> {props.productData.author} </span> 
-                            <span className={props.productData.status === "done" ? "text-success text-capitalize px-3 border border-success w-50 p-1 ": props.productData.status === "pending" ? "text-warning text-capitalize px-3 border border-warning w-50 p-1 " : props.productData.status === "new" ? "text-secondary text-capitalize px-3 p-1 border border-secondary w-50" : "text-danger text-capitalize px-3 p-1 border border-danger w-50"}> 
+                            <span className={props.productData.status === "done" ? "text-success rounded text-capitalize px-3 border border-success w-50 p-1 ": props.productData.status === "pending" ? "text-warning rounded text-capitalize px-3 border border-warning w-50 p-1 " : props.productData.status === "new" ? "text-secondary rounded text-capitalize px-3 p-1 border border-secondary w-50" : "text-danger text-capitalize rounded px-3 p-1 border border-danger w-50"}> 
                                 <i className="fa fa-circle" aria-hidden="true"></i> {props.productData.status} 
                             </span>
                         </div>
                     </Card.Body>
-                </Card>
+                </CardHover>
             </StyledLink>
         </div>
     )

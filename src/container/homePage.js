@@ -31,7 +31,7 @@ class HomePage extends Component {
                     <Switch>
                         <Route exact path="/products" component={Products} />
                         <Route exact path="/createProduct" component={Products} />
-                        <Route exact path="/staffRecords" component={Employees} />
+                        <Route exact path="/employees" component={Employees} />
                         {/* <Route exact path="/staffRecords/:ID" component={Products} /> */}
                         <Route  path="/products/:id" component={ProductRecords}/>
                         <Redirect from='/' to="/products" />
@@ -44,4 +44,4 @@ class HomePage extends Component {
     }
 }
 
-export default HomePage
+export default HomePage  

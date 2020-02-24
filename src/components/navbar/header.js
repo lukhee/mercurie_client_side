@@ -1,4 +1,5 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import { Navbar, Button } from 'react-bootstrap'
 
 const header = ()=> {
@@ -13,5 +14,6 @@ const header = ()=> {
         </div>
     )
 }
+
 
 export default header
