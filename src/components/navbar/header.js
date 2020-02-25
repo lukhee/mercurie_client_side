@@ -34,7 +34,7 @@ const header = (props)=> {
     return (
         <div className="container-fluid shadow-sm mb-5" style={{ background: '#181830' }}>
             <Navbar variant="dark" className="container d-flex justify-content-between">
-                <StyledLink className="btn btn-sm text-light font-weight-bold" to="/"> LOGO-WA </StyledLink>
+                <StyledLink className="btn btn-sm text-warning font-weight-bold" to="/"> LOGO-WA </StyledLink>
                 <Button className="font-weight-bold" onClick={switchPage} size='sm' variant="warning">{props.productPage ==! true? "Products" : "Employees"}</Button>
             </Navbar>
         </div>

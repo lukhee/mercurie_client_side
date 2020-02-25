@@ -224,7 +224,7 @@ class product extends Component {
                         </div>
                         <div className="col-sm-8 py-4">
                             <h3>{this.state.productProperty.title}</h3>
-        <p style={{color: "#d8d8f0ad", linHeight: "1.6"}} className="pb-3">{this.state.productProperty.lengthyDescription || "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable."}</p>
+                            <p style={{color: "#d8d8f0ad", linHeight: "1.6"}} className="pb-3">{this.state.productProperty.lengthyDescription || "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable."}</p>
                             <div className="row justify-content-between px-3">
                                 <span> {this.state.productProperty.author} </span>
                                 <span> {createdAt} </span>

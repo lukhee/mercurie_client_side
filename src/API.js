@@ -1,8 +1,8 @@
 import axios from 'axios'
 
 const api = axios.create({
-    // baseURL: 'https://mercurie.herokuapp.com/',
-    baseURL: "http://localhost:3040"
+    baseURL: 'https://mercurie.herokuapp.com/',
+    // baseURL: "http://localhost:3040"
 })
 
 export const createProduct = (payload) => api.post('/createProduct', payload)
