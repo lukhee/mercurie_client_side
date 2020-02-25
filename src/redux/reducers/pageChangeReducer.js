@@ -7,7 +7,7 @@ export default (state = initialState, action) => {
     switch (action.type) {
         case CHANGE_PAGE:
         return {
-            ProductPage : !state.ProductPage
+            ProductPage : action.value
         }
             default:
             return state

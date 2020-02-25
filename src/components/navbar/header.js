@@ -1,35 +1,53 @@
 import React, { Component } from 'react';
+import { compose } from 'redux'
+import { withRouter } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux'
 import { Navbar, Button } from 'react-bootstrap'
-import { CHANGE_PAGE } from '../../redux/constants/action-Types'
 import { changePage } from '../../redux/actions/index'
+import styled from 'styled-components';
+
+const StyledLink = styled(Link)`
+    text-decoration: none;
+    font-size: 18px;
+    border: 2px solid #ffc107;
+
+    &:focus, &:hover, &:visited, &:link, &:active {
+        text-decoration: none;
+        border: 2px solid #ffc107
+    }
+`;
 
 
 const header = (props)=> {
-    console.log(props)
+    const switchPage = () => {
+        let nextPage
+        if(props.productPage === true){
+            props.TogglePage(false)
+            nextPage = "/employees"
+        } else {
+            props.TogglePage(true)
+            nextPage = "/products"
+        }
+        props.history.push(nextPage);
+    }
     return (
         <div className="container-fluid shadow-sm mb-5" style={{ background: '#181830' }}>
-        {/* <pre className='text-white'>
-        {
-            JSON.stringify(props)
-        }
-        </pre> */}
             <Navbar variant="dark" className="container d-flex justify-content-between">
-                <Navbar.Brand className="font-weight-bold" href="#home">LOGO</Navbar.Brand>
-                <div>
-                <Button onClick={props.TogglePage} size='sm' variant="warning">Sign-Up/Log-In</Button>
-                </div>
+                <StyledLink className="btn btn-sm text-light font-weight-bold" to="/"> LOGO-WA </StyledLink>
+                <Button className="font-weight-bold" onClick={switchPage} size='sm' variant="warning">{props.productPage ==! true? "Products" : "Employees"}</Button>
             </Navbar>
         </div>
     )
 }
 
 const mapStateToProps = state => ({
-    ...state
+    productPage : state.pageChangeReducer.ProductPage
 })
 
 const mapDispatchToProps = dispatch => ({
-    TogglePage: () => dispatch(changePage()),
+    TogglePage: (val) => dispatch(changePage(val)),
     // changePage: itemState => dispatch(setActionTemplate(ownProps.prop))
 })
-export default connect(mapStateToProps, mapDispatchToProps)(header)
+export default
+compose( withRouter, connect(mapStateToProps, mapDispatchToProps))(header)

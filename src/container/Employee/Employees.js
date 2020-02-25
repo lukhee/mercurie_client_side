@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import { Card } from 'react-bootstrap'
+import { connect } from 'react-redux'
 import { Form } from 'react-bootstrap'
 import styled from 'styled-components'
 import Spinner from '../../components/Util/Spinner/Spinner'
+import { changePage } from '../../redux/actions/index'
 import Modal from '../../components/Util/modals/productModals/AddStaffModal'
 import  CreateEmployee from '../../components/Util/CreateForm/EmployeeForm'
 import EmployeeRecordCard from '../../components/employee/EmployeeRecordCard'
@@ -66,6 +68,7 @@ class Employees extends Component {
     }
 
     componentDidMount(){
+        this.props.TogglePage(false)
         this.getAllEmployeeFunc()
     }
 
@@ -211,4 +214,9 @@ class Employees extends Component {
     }
 }
 
-export default Employees
+
+const mapDispatchToProps = dispatch => ({
+    TogglePage: (val) => dispatch(changePage(val)),
+})
+
+export default connect(null, mapDispatchToProps)(Employees)

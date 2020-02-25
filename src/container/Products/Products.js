@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import { Card } from 'react-bootstrap'
+import { connect } from 'react-redux'
 import styled from 'styled-components'
-// import { Link } from 'react-router-dom'
 import { Form } from 'react-bootstrap'
 import { getAllEmployees, createProduct } from '../../API'
 
 import { getAllprojects  } from '../../API'
+import { changePage } from '../../redux/actions/index'
 import ProductCard from '../../components/products/productCard'
 import CreateForm from '../../components/Util/CreateForm/ProductForm'
 import Modal from '../../components/Util/modals/productModals/AddStaffModal'
@@ -81,6 +82,7 @@ class Products extends Component {
     }
 
     componentDidMount(){
+        this.props.TogglePage(true)
         this.getAllProductAPI()
     }
 
@@ -197,4 +199,8 @@ class Products extends Component {
     }
 }
 
-export default Products
+const mapDispatchToProps = dispatch => ({
+    TogglePage: (val) => dispatch(changePage(val)),
+})
+
+export default connect(null, mapDispatchToProps)(Products)

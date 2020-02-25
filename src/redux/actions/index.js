@@ -11,8 +11,8 @@ import { CHANGE_PAGE } from "../constants/action-Types";
 //     })
 // }
 
-export const changePage = (itemId) => (
+export const changePage = (val) => (
     {
      type: CHANGE_PAGE,
-    //  itemId: itemId
+     value: val
     });
